@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="de.peter.fbdj_songs.Neues_Lied_eingeben"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal|end|left|right|top" >
+
+        <Button
+            android:id="@+id/btn_abbrechen"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30"
+            android:icon="@drawable/ic_action_delete"
+            
+            android:text="@string/btn_abbrechen" />
+
+        <Button
+            android:id="@+id/btn_speichern"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:icon="@drawable/ic_action_done"
+            android:text="@string/btn_speichern" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/linearLayout2"
+        android:gravity="fill_horizontal|left"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/et_titel"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:hint="Liedtitel eingeben" />
+
+                <EditText
+                    android:id="@+id/et_interpret"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:hint="Interpret eingeben" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left" >
+
+                    <EditText
+                        android:id="@+id/et_tonart"
+                        android:layout_width="160dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Tonart eingeben" />
+
+                    <CheckBox
+                        android:id="@+id/cb_Dur"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:text="Dur" />
+
+                    <CheckBox
+                        android:id="@+id/cb_mol"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:text="Mol" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_liedtext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:ems="10"
+                    android:hint="Liedtext eingeben"
+                    android:inputType="textMultiLine"
+                    android:singleLine="false" />
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>
