@@ -1,5 +1,7 @@
 package de.peter.fbdj_songs;
 
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface;
@@ -7,20 +9,28 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Lied_anzeigen extends ActionBarActivity{
 
+	public CommentsDataSource datasource;
 	public TextView Liedtitel, Interpret, Tonart, Liedtext; 
 	public ImageButton	Ton;
 	public int Tonspur;
+	public long id;
 	public CheckBox cb_favorit;
 	public MediaPlayer mp;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,9 @@ public class Lied_anzeigen extends ActionBarActivity{
 		Interpret.setText(intent.getStringExtra("Interpret"));
 		Tonart.setText(intent.getStringExtra("Tonart"));
 		Liedtext.setText(intent.getStringExtra("Liedtext"));
+		id = intent.getLongExtra("Id", -1);
+	   
+		
 		
 	}
 	
@@ -121,13 +134,48 @@ public class Lied_anzeigen extends ActionBarActivity{
 		    	}
 		    	break;
 		    default: 
-		    	
+		    	Log.v("peter","Fehler in der OnClick_Lied_anzeigen");
 		    	break;
 		    
 		    
 		    }
 		    	
 	}
+		@Override
+		public boolean onCreateOptionsMenu(Menu menu) {
 
+			// Inflate the menu; this adds items to the action bar if it is present.
+			getMenuInflater().inflate(R.menu.lied_anzeigen, menu);
+			return true;
+		}
+
+		@Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+			// Handle action bar item clicks here. The action bar will
+			// automatically handle clicks on the Home/Up button, so long
+			// as you specify a parent activity in AndroidManifest.xml.
+			
+			switch(item.getItemId()){
+			
+			case R.id.delete:
+				 CommentsDataSource.database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
+					        + " = " + id, null);
+				 
+				 	Toast toast = Toast.makeText(getApplicationContext(),
+							"Erfolgreich Gelöscht", Toast.LENGTH_SHORT);
+					toast.show();
+				 
+				 
+				 Log.v("peter", "Lied " +Liedtitel+ " wurde gelöscht");
+				 finish();
+				 return true;
+				
+					
+			case R.id.bearbeiten:			return true;//Titel der Datenbank nach eingegebenen Titel durchsuchen
+														//Titel der Datenbank nach Namen sortieren
+				default: //Titel der Datenbank nach Namen sortieren
+			}
+			return super.onOptionsItemSelected(item);
+		}
 		
 }

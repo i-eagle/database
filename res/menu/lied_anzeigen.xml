@@ -8,5 +8,7 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
+    <item android:id="@+id/delete" android:enabled="true" android:title="Lied löschen" android:visible="true"></item>
+    <item android:id="@+id/bearbeiten" android:enabled="true" android:title="Titel bearbeiten" android:visible="true"></item>
 
 </menu>

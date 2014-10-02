@@ -67,7 +67,7 @@ public class CommentsDataSource {
 	  
 	 
 
-	  public void deleteComment(Comment comment) {
+	  public static void deleteComment(Comment comment) {
 	    long id = comment.getId();	//Hier wird die Id bestimmt, 
 	    							//welche gelöscht werden Soll
 	    							// ItemClicklistener wird später verwendet

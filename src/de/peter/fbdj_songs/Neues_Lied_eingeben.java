@@ -97,12 +97,6 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 			
 				CommentsDataSource.createComment(titel, interpret, tonart, liedtext);
 				
-				
-				
-				////////////////////////////////////////////
-				
-				
-			 ///////////////////////////////////////////
 			toast = Toast.makeText(v.getContext(),
 					"Gespeichert: " + et_titel.getText().toString(),
 					Toast.LENGTH_LONG);

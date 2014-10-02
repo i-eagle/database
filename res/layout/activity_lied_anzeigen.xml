@@ -67,9 +67,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginTop="15dp"
-                    android:layout_weight="7.62"
+                    android:layout_weight="62.54"
                     android:text="Liedtext"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

@@ -50,8 +50,10 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	        android.R.layout.simple_list_item_1, values);
 	    setListAdapter(adapter);
 	    getListView().setOnItemClickListener(this);
+	   
 	    getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-	    	  public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
+	    	 
+	    	public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
 				/////
 	    		  List<Comment> values = datasource.getAllComments();
 	  			Comment comment = values.get(position);
@@ -61,12 +63,15 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	    		  return false;	}
 	    		});
 	  
-	    
-	    
-	  
 	  }
 	    
-	    
+	    public void delete(long id){
+	   
+	    	Comment comment = null;	
+	    	comment = (Comment) getListAdapter().getItem(0);
+	 	    datasource.deleteComment(comment);
+	    	
+	    }
 
 	  // Will be called via the onClick attribute
 	  // of the buttons in main.xml
@@ -88,8 +93,6 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	      if (getListAdapter().getCount() > 0) {
 	       comment = (Comment) getListAdapter().getItem(0);
 	       datasource.deleteComment(comment);
-	       //adapter.remove(comment);			// hier geschieht ein fehler
-	      
 	      }
 	      break;
 	      
@@ -159,6 +162,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 			    	lied_anzeigen.putExtra("Interpret", comment.getInterpret().toString());
 			    	lied_anzeigen.putExtra("Tonart", comment.getTonart().toString());
 			    	lied_anzeigen.putExtra("Liedtext", comment.getLiedtext().toString());
+			    	lied_anzeigen.putExtra("Id", comment.getId());
 					startActivity(lied_anzeigen);
 		}
 		
