@@ -64,10 +64,13 @@ public class CommentsDataSource {
 	    long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,values);
 	   	  
 	  }
+	  
+	 
 
 	  public void deleteComment(Comment comment) {
 	    long id = comment.getId();	//Hier wird die Id bestimmt, 
-	    //welche gelöscht werden Soll// ItemClicklistener wird später verwendet
+	    							//welche gelöscht werden Soll
+	    							// ItemClicklistener wird später verwendet
 	    System.out.println("Comment deleted with id: " + id);
 	    database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
 	        + " = " + id, null);

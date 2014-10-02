@@ -2,6 +2,7 @@ package de.peter.fbdj_songs;
 
 import java.util.List;
 
+import android.media.MediaPlayer;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +10,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
 
-public class Startpage extends ListActivity implements OnItemClickListener{
+public class Startpage extends ListActivity implements OnItemClickListener {
+	
 	public CommentsDataSource datasource;
 	public static String neuerEintrag_titel;
 	public static String neuerEintrag_interpret;
@@ -24,14 +28,16 @@ public class Startpage extends ListActivity implements OnItemClickListener{
 	public static String neuerEintrag_liedtext;
 	public static String et_search;
 	private ListView lv;
+	public MediaPlayer mp;
+	
 	
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_startpage);
 	    
-	  //  lv = (ListView) findViewById(R.id.list);
-	   // lv.setOnItemClickListener(this);
+	    //lv = (ListView) findViewById(R.id.my_list);
+	    
 	    
 	    datasource = new CommentsDataSource(this);
 	    datasource.open();
@@ -42,8 +48,19 @@ public class Startpage extends ListActivity implements OnItemClickListener{
 	    // elements in a ListView
 	    ArrayAdapter<Comment> adapter = new ArrayAdapter<Comment>(this,
 	        android.R.layout.simple_list_item_1, values);
-	    //lv.setAdapter(adapter);
 	    setListAdapter(adapter);
+	    getListView().setOnItemClickListener(this);
+	    getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+	    	  public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
+				/////
+	    		  List<Comment> values = datasource.getAllComments();
+	  			Comment comment = values.get(position);
+	  			datasource.deleteComment(comment);
+	    		  
+	    		    //do your stuff here
+	    		  return false;	}
+	    		});
+	  
 	    
 	    
 	  
@@ -53,7 +70,7 @@ public class Startpage extends ListActivity implements OnItemClickListener{
 
 	  // Will be called via the onClick attribute
 	  // of the buttons in main.xml
-	  @SuppressWarnings("null")
+	//  @SuppressWarnings("null")
 	public void onClick(View view) {
 	    @SuppressWarnings("unchecked")
 	    ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) getListAdapter();
@@ -64,8 +81,6 @@ public class Startpage extends ListActivity implements OnItemClickListener{
 	    	
 		    Intent intent = new Intent(Startpage.this, Neues_Lied_eingeben.class);
 			startActivity(intent);
-		   
-			
 	    	break;		    
 	    	
 	    	
@@ -73,21 +88,21 @@ public class Startpage extends ListActivity implements OnItemClickListener{
 	      if (getListAdapter().getCount() > 0) {
 	       comment = (Comment) getListAdapter().getItem(0);
 	       datasource.deleteComment(comment);
-	       adapter.remove(comment);
+	       //adapter.remove(comment);			// hier geschieht ein fehler
+	      
 	      }
 	      break;
 	      
-	    case R.id.search:		
-	    	//cursor = getReadableDatabase().rawQuery("select * from todo where _id = ?", new String[] { id });
-	    	
-	    	break;
-	   
-	    	//default:
-	    	//	Log.v(null, "Fehler beim erkennen auf List Item");
-	    	//	break;
+	    case R.id.search: break;
 	   
 	    }
-	    adapter.notifyDataSetChanged();
+	    List<Comment> values = datasource.getAllComments();
+	    
+	    // use the SimpleCursorAdapter to show the
+	    // elements in a ListView
+	    adapter = new ArrayAdapter<Comment>(this,
+	        android.R.layout.simple_list_item_1, values);
+	    setListAdapter(adapter);
 	  }
 
 
@@ -136,14 +151,17 @@ public class Startpage extends ListActivity implements OnItemClickListener{
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// TODO Auto-generated method stub
-			Comment comment = new Comment();
-	    	Intent lied_anzeigen = new Intent(Startpage.this, Lied_anzeigen.class);
-	    	lied_anzeigen.putExtra("Liedtitel", comment.getTitel().toString());
-	    	lied_anzeigen.putExtra("Interpret", comment.getInterpret().toString());
-	    	lied_anzeigen.putExtra("Liedtext", comment.getLiedtext().toString());
-			startActivity(lied_anzeigen);
+			List<Comment> values = datasource.getAllComments();
+			Comment comment = values.get(position);
+					//new Comment();
+			    	Intent lied_anzeigen = new Intent(Startpage.this, Lied_anzeigen.class);
+			    	lied_anzeigen.putExtra("Liedtitel", comment.getTitel().toString());
+			    	lied_anzeigen.putExtra("Interpret", comment.getInterpret().toString());
+			    	lied_anzeigen.putExtra("Tonart", comment.getTonart().toString());
+			    	lied_anzeigen.putExtra("Liedtext", comment.getLiedtext().toString());
+					startActivity(lied_anzeigen);
 		}
-
+		
 	} 
 
 	

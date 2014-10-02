@@ -34,6 +34,10 @@
             android:name="de.peter.fbdj_songs.Lied_anzeigen"
             android:label="@string/title_activity_lied_anzeigen" >
         </activity>
+        <activity
+            android:name="de.peter.fbdj_songs.MyList"
+            android:label="@string/title_activity_my_list" >
+        </activity>
     </application>
 
 </manifest>

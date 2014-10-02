@@ -11,5 +11,6 @@
     <string name="btn_speichern">Speichern</string>
     <string name="btn_abbrechen">Abbrechen</string>
     <string name="title_activity_lied_anzeigen">Lied_anzeigen</string>
+    <string name="title_activity_my_list">MyList</string>
 
 </resources>

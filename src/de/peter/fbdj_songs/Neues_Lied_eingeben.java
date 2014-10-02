@@ -83,10 +83,10 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 				//neuerEintrag.setInterpret(et_interpret.getText().toString());
 				if(cb_dur.isChecked()){
 				et_tonart.setText(et_tonart.getText().toString() + 
-						" Dur");}
+						"-dur");}
 				else{
 					et_tonart.setText(et_tonart.getText().toString() + 
-							" Mol");
+							"-mol");
 				}
 				//neuerEintrag.setLiedtext(et_liedtext.getText().toString());
 
@@ -107,8 +107,6 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 					"Gespeichert: " + et_titel.getText().toString(),
 					Toast.LENGTH_LONG);
 			toast.show();
-			
-			
 			finish();
 			
 			}
