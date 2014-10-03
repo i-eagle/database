@@ -2,11 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="de.peter.fbdj_songs.Startpage" >
-    <item android:id="@+id/menu_sort_name" 
-        android:title="Nach Namen sortieren" 
-        app:showAsAction="ifRoom"
-        android:visible="true" 
-        android:enabled="true"></item>
     <item android:id="@+id/menu_sort_favorit" 
         android:title="Nach Favoriten sortieren" 
         app:showAsAction="ifRoom"
@@ -17,9 +12,4 @@
         app:showAsAction="ifRoom" 
         android:visible="true" 
         android:enabled="true"></item>
-	<item android:id="@+id/menu_search"
-          android:title="Lied suchen"
-          android:icon="@drawable/ic_action_search"
-          app:showAsAction="always|collapseActionView"
-          app:actionViewClass="android.support.v7.widget.SearchView"></item>
 </menu>

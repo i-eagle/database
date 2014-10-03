@@ -1372,10 +1372,8 @@ containing a value of this type.
         public static final int linearLayout2=0x7f060056;
         public static final int listMode=0x7f060013;
         public static final int list_item=0x7f06003a;
-        public static final int menu_search=0x7f06006b;
-        public static final int menu_sort_favorit=0x7f060069;
-        public static final int menu_sort_interpret=0x7f06006a;
-        public static final int menu_sort_name=0x7f060068;
+        public static final int menu_sort_favorit=0x7f060068;
+        public static final int menu_sort_interpret=0x7f060069;
         public static final int middle=0x7f060024;
         public static final int my_list=0x7f060055;
         public static final int never=0x7f06001b;
