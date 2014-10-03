@@ -12,7 +12,7 @@
         android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
             <ImageButton
@@ -22,14 +22,6 @@
                 android:onClick="onClick"
                 android:src="@drawable/ic_action_edit"
                 android:text="Neues Lied eingeben" />
-
-            <ImageButton
-                android:id="@+id/delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onClick"
-                android:src="@drawable/ic_action_delete"
-                android:text="Delete First" />
 
             <EditText
                 android:id="@+id/et_search"
@@ -47,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_search"
+                android:onClick="onClick"
                 android:text="Button" />
         </LinearLayout>
 

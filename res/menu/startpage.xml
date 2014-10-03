@@ -2,15 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="de.peter.fbdj_songs.Startpage" >
-     
-
-    <item
-        android:id="@+id/menu_settings"
-        android:orderInCategory="100"
-        android:title="@string/menu_settings"
-        app:showAsAction="never" 
-        android:enabled="false" 
-        android:visible="false"/>
     <item android:id="@+id/menu_sort_name" 
         android:title="Nach Namen sortieren" 
         app:showAsAction="ifRoom"
@@ -24,12 +15,6 @@
     <item android:id="@+id/menu_sort_interpret" 
         android:title="Nach Interpret sortieren"
         app:showAsAction="ifRoom" 
-        android:visible="true" 
-        android:enabled="true"></item>
-    <item android:id="@+id/menu_add" 
-        android:title="Neues Lied eingeben" 
-        android:icon="@drawable/ic_action_edit"
-        app:showAsAction="withText"
         android:visible="true" 
         android:enabled="true"></item>
 	<item android:id="@+id/menu_search"

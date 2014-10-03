@@ -3,6 +3,8 @@ package de.peter.fbdj_songs;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -21,7 +23,8 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 	private EditText  et_titel, et_interpret, et_tonart, et_liedtext;
 	private Button btn_speichern, btn_abbrechen;
 	private CheckBox cb_dur, cb_mol;
-	
+	public long id;
+	public String updaten, n_titel, n_interpret, n_tonart, n_liedtext;
 	
 	
 	
@@ -43,6 +46,24 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 		btn_speichern.setOnClickListener(this);
 		btn_abbrechen = (Button)findViewById(R.id.btn_abbrechen);
 		btn_abbrechen.setOnClickListener(this);
+		
+		
+		Intent intent = getIntent();
+		id = intent.getLongExtra("Id_update", -1);
+		updaten = intent.getStringExtra("Update");
+		et_titel.setText(intent.getStringExtra("Liedtitel"));
+		et_interpret.setText(intent.getStringExtra("Interpret"));
+		et_tonart.setText(intent.getStringExtra("Tonart"));
+		et_liedtext.setText(intent.getStringExtra("Liedtext"));
+		
+		n_titel = et_titel.getText().toString();
+		n_interpret = et_interpret.getText().toString();
+		n_liedtext = et_liedtext.getText().toString();
+		if(cb_dur.isChecked()){
+			//n_tonart = ;
+		}
+			
+		
 		
 	}
 	
@@ -95,7 +116,40 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 				tonart = et_tonart.getText().toString();
 				liedtext = et_liedtext.getText().toString();
 			
-				CommentsDataSource.createComment(titel, interpret, tonart, liedtext);
+				if(updaten =="update"){
+					Cursor cursor = CommentsDataSource.database.query(
+							MySQLiteHelper.TABLE_COMMENTS,
+							CommentsDataSource.allColumns, 
+							MySQLiteHelper.COLUMN_ID+" = ? ",
+							new String[]{String.valueOf(id)}, 
+							null, null, null); //nach titel sortiert
+					if(cursor != null){
+						cursor.moveToFirst();
+					}
+					Comment comment = new Comment();
+					comment.setId				(cursor.getLong(0));
+				    comment.setTitel			(titel);
+				    comment.setInterpret		(interpret);
+				    comment.setTonart			(tonart);
+				    comment.setLiedtext			(liedtext);
+				    comment.setFavorit			(cursor.getInt(5));
+				    comment.setEingelesen		(cursor.getInt(6));
+				    comment.setHaeufig_benutzt	(cursor.getInt(7));
+				    ContentValues cv = new ContentValues();
+					  cv.put(MySQLiteHelper.COLUMN_COMMENT1, comment.getTitel());
+					  cv.put(MySQLiteHelper.COLUMN_COMMENT2, comment.getInterpret());
+					  cv.put(MySQLiteHelper.COLUMN_COMMENT3, comment.getTonart());
+					  cv.put(MySQLiteHelper.COLUMN_COMMENT4, comment.getLiedtext());
+					  cv.put(MySQLiteHelper.COLUMN_COMMENT5, comment.getFavorit());
+					  cv.put(MySQLiteHelper.COLUMN_COMMENT6, comment.getEingelesen());
+					  cv.put(MySQLiteHelper.COLUMN_COMMENT7, comment.getHaeufig_benutzt());
+					  
+					  CommentsDataSource.database.update(MySQLiteHelper.TABLE_COMMENTS,
+							  cv, MySQLiteHelper.COLUMN_ID+"="+id,null);
+					  
+				   
+				}
+				else CommentsDataSource.createComment(titel, interpret, tonart, liedtext);
 				
 			toast = Toast.makeText(v.getContext(),
 					"Gespeichert: " + et_titel.getText().toString(),

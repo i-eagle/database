@@ -24,7 +24,7 @@ public class CommentsDataSource {
 	 public static SQLiteDatabase database;
 	  private static MySQLiteHelper dbHelper;
 	  
-	  private static String[] allColumns = { 
+	  static String[] allColumns = { 
 			  MySQLiteHelper.COLUMN_ID,			//ID
 			  MySQLiteHelper.COLUMN_COMMENT1,	//titel
 			  MySQLiteHelper.COLUMN_COMMENT2,	//interpret
@@ -67,7 +67,7 @@ public class CommentsDataSource {
 	  
 	 
 
-	  public static void deleteComment(Comment comment) {
+	  public void deleteComment(Comment comment) {
 	    long id = comment.getId();	//Hier wird die Id bestimmt, 
 	    							//welche gelöscht werden Soll
 	    							// ItemClicklistener wird später verwendet
@@ -76,12 +76,28 @@ public class CommentsDataSource {
 	        + " = " + id, null);
 	  }
 
-	
+	  public static void updateComment(Comment comment){
+		  long id = comment.getId();
+		  ContentValues cv = new ContentValues();
+		  cv.put(MySQLiteHelper.COLUMN_COMMENT1, comment.getTitel());
+		  cv.put(MySQLiteHelper.COLUMN_COMMENT2, comment.getInterpret());
+		  cv.put(MySQLiteHelper.COLUMN_COMMENT3, comment.getTonart());
+		  cv.put(MySQLiteHelper.COLUMN_COMMENT4, comment.getLiedtext());
+		  cv.put(MySQLiteHelper.COLUMN_COMMENT5, comment.getFavorit());
+		  cv.put(MySQLiteHelper.COLUMN_COMMENT6, comment.getEingelesen());
+		  cv.put(MySQLiteHelper.COLUMN_COMMENT7, comment.getHaeufig_benutzt());
+		  
+		  database.update(MySQLiteHelper.TABLE_COMMENTS,
+				  cv, MySQLiteHelper.COLUMN_ID+" ="+id,null);
+				  
+		
+	  }
+	  
 	  public List<Comment> getAllComments() {
 		    int i = 0;
-
 		    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
-		        allColumns, null, null, null, null, MySQLiteHelper.COLUMN_COMMENT1); //nach titel sortieren
+		        allColumns, null, null, null, null, 
+		        MySQLiteHelper.COLUMN_COMMENT1); //nach titel sortieren
 		    Comment[] comments = new Comment[cursor.getCount()];
 		    
 		    while (cursor.moveToNext()) {
@@ -102,5 +118,37 @@ public class CommentsDataSource {
 		    cursor.close();
 		    return Arrays.asList(comments);
 		  }
+	  
+	  
+public List <Comment> getComment(String search){
+	int i = 0;
+Cursor cursor = CommentsDataSource.database.query(
+		MySQLiteHelper.TABLE_COMMENTS,
+		CommentsDataSource.allColumns, 
+		MySQLiteHelper.COLUMN_COMMENT1+" = ? ",
+		new String[]{String.valueOf(search)}, 
+		null, null, null);
+if(cursor != null){
+	cursor.moveToFirst();
+}
 
+Comment[] comments = new Comment[cursor.getCount()];
+while (!cursor.isAfterLast()) {
+	Comment comment = new Comment();
+comment.setId				(cursor.getLong(0));
+comment.setTitel			(cursor.getString(1));
+comment.setInterpret		(cursor.getString(2));
+comment.setTonart			(cursor.getString(3));
+comment.setLiedtext			(cursor.getString(4));
+comment.setFavorit			(1);
+comment.setEingelesen		(cursor.getInt(6));
+comment.setHaeufig_benutzt	(cursor.getInt(7));
+comments[i] = comment;
+  i++;
+  comment = null;
+  cursor.moveToNext();
+  }
+
+return Arrays.asList(comments);}
+	 
 }

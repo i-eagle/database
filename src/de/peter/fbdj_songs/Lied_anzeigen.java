@@ -2,34 +2,32 @@ package de.peter.fbdj_songs;
 
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface.OnClickListener;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Lied_anzeigen extends ActionBarActivity{
+public class Lied_anzeigen extends ActionBarActivity implements OnClickListener{
 
 	public CommentsDataSource datasource;
 	public TextView Liedtitel, Interpret, Tonart, Liedtext; 
 	public ImageButton	Ton;
-	public int Tonspur;
+	public int Tonspur, favorit;
 	public long id;
 	public CheckBox cb_favorit;
 	public MediaPlayer mp;
+
 	
 	
 	@Override
@@ -44,19 +42,28 @@ public class Lied_anzeigen extends ActionBarActivity{
 		Ton = (ImageButton)findViewById(R.id.btn_ton);
 		cb_favorit = (CheckBox)findViewById(R.id.cb_favorit);
 		
-		
+
 		Intent intent = getIntent();
 		Liedtitel.setText(intent.getStringExtra("Liedtitel"));
 		Interpret.setText(intent.getStringExtra("Interpret"));
 		Tonart.setText(intent.getStringExtra("Tonart"));
 		Liedtext.setText(intent.getStringExtra("Liedtext"));
 		id = intent.getLongExtra("Id", -1);
-	   
+		favorit = intent.getIntExtra("Favorit", 0);
+		if (favorit == 1){
+		cb_favorit.setChecked(true);
+		}
 		
+		 datasource = new CommentsDataSource(this);
+		 datasource.open();
+
+		    
 		
 	}
 	
 
+	
+//public void onCheckboxClicked
 		public void onClick(View view) {
 		   
 		    switch (view.getId()) {
@@ -64,73 +71,119 @@ public class Lied_anzeigen extends ActionBarActivity{
 		    case R.id.btn_ton:	// hier wird zuerst die tonart ausgelesen, dann der
 		    					// dazugehörige Akkord festgelegt, anschließend wird der
 		    					// Akkord abgespielt
+		    	String akkord = Tonart.getText().toString();
 		    	
-		    	if(Tonart.toString() == "c-mol" || Tonart.toString()=="C-mol"){
+		    	if(akkord.equals("c-mol") || akkord.equals("C-mol")){
 		    		Tonspur = R.raw.cmol;}
-		    	else if(Tonart.toString() == "d-mol" || Tonart.toString()=="D-mol"){
+		    	else if(akkord.equals("d-mol") || akkord.equals("D-mol")){
 		    		Tonspur = R.raw.dmol;}
-		    	else if(Tonart.toString() == "e-mol" || Tonart.toString()=="E-mol"){
+		    	else if(akkord.equals("e-mol") || akkord.equals("E-mol")){
 		    		Tonspur = R.raw.emol;}
-		    	else if(Tonart.toString() == "f-mol" || Tonart.toString()=="F-mol"){
+		    	else if(akkord.equals("f-mol") || akkord.equals("F-mol")){
 		    		Tonspur = R.raw.fmol;}
-		    	else if(Tonart.toString() == "g-mol" || Tonart.toString()=="G-mol"){
+		    	else if(akkord.equals("g-mol") || akkord.equals("G-mol")){
 		    		Tonspur = R.raw.gmol;}
-		    	else if(Tonart.toString() == "a-mol" || Tonart.toString()=="A-mol"){
+		    	else if(akkord.equals("a-mol") || akkord.equals("A-mol")){
 		    		Tonspur = R.raw.amol;}
-		    	else if(Tonart.toString() == "h-mol" || Tonart.toString()=="H-mol"){
+		    	else if(akkord.equals("h-mol") || akkord.equals("H-mol")){
 		    		Tonspur = R.raw.hmol;}
-		    	else if(Tonart.toString() == "des-mol" || Tonart.toString()=="Des-mol"||
-		    			Tonart.toString() == "cis-mol" || Tonart.toString()=="Cis-mol"){
+		    	else if(akkord.equals("des-mol") ||akkord.equals("Des-mol")||
+		    			akkord.equals("cis-mol")|| akkord.equals("Cis-mol")){
 		    		Tonspur = R.raw.desmol;}
-		    	else if(Tonart.toString() == "es-mol" || Tonart.toString()=="Es-mol"||
-		    			Tonart.toString() == "dis-mol" || Tonart.toString()=="Dis-mol"){
+		    	else if(akkord.equals("es-mol") ||akkord.equals("Es-mol")||
+		    			akkord.equals("dis-mol")|| akkord.equals("Dis-mol")){
 		    		Tonspur = R.raw.esmol;}
-		    	else if(Tonart.toString() == "ges-mol" || Tonart.toString()=="Ges-mol"||
-		    			Tonart.toString() == "fis-mol" || Tonart.toString()=="Fis-mol"){
+		    	else if(akkord.equals("ges-mol") ||akkord.equals("Ges-mol")||
+		    			akkord.equals("fis-mol")|| akkord.equals("Fis-mol")){
 		    		Tonspur = R.raw.gesmol;}
-		    	else if(Tonart.toString() == "as-mol" || Tonart.toString()=="As-mol"||
-		    			Tonart.toString() == "gis-mol" || Tonart.toString()=="Gis-mol"){
+		    	else if(akkord.equals("as-mol") ||akkord.equals("As-mol")||
+		    			akkord.equals("gis-mol")|| akkord.equals("Gis-mol")){
 		    		Tonspur = R.raw.asmol;}
-		    	else if(Tonart.toString() == "b-mol" || Tonart.toString()=="B-mol"||
-		    			Tonart.toString() == "ais-mol" || Tonart.toString()=="Ais-mol"){
+		    	else if(akkord.equals("b-mol") ||akkord.equals("B-mol")||
+		    			akkord.equals("ais-mol")|| akkord.equals("Ais-mol")){
 		    		Tonspur = R.raw.bmol;}
-		    	else if(Tonart.toString() == "c-dur" || Tonart.toString()=="C-dur"){
+		    	else if(akkord.equals("c-dur") || akkord.equals("C-dur")){
 		    		Tonspur = R.raw.cdur;}
-		    	else if(Tonart.toString() == "d-dur" || Tonart.toString()=="D-dur"){
+		    	else if(akkord.equals("d-dur") || akkord.equals("D-dur")){
 		    		Tonspur = R.raw.ddur;}
-		    	else if(Tonart.toString() == "e-dur" || Tonart.toString()=="E-dur"){
+		    	else if(akkord.equals("e-dur") || akkord.equals("E-dur")){
 		    		Tonspur = R.raw.edur;}
-		    	else if(Tonart.toString() == "f-dur" || Tonart.toString()=="F-dur"){
+		    	else if(akkord.equals("f-dur") || akkord.equals("F-dur")){
 		    		Tonspur = R.raw.fdur;}
-		    	else if(Tonart.toString() == "g-dur" || Tonart.toString()=="G-dur"){
+		    	else if(akkord.equals("g-dur") || akkord.equals("G-dur")){
 		    		Tonspur = R.raw.gdur;}
-		    	else if(Tonart.toString() == "a-dur" || Tonart.toString()=="A-dur"){
+		    	else if(akkord.equals("a-dur") || akkord.equals("A-dur")){
 		    		Tonspur = R.raw.adur;}
-		    	else if(Tonart.toString() == "h-dur" || Tonart.toString()=="H-dur"){
+		    	else if(akkord.equals("h-dur") || akkord.equals("H-dur")){
 		    		Tonspur = R.raw.hdur;}
-		    	else if(Tonart.toString() == "cis-dur" || Tonart.toString()=="Cis-dur"||
-		    			Tonart.toString() == "des-dur" || Tonart.toString()=="Des-dur"){
+		    	else if(akkord.equals("cis-dur") ||akkord.equals("Cis-dur")||
+		    			akkord.equals("des-dur")|| akkord.equals("Des-dur")){
 		    		Tonspur = R.raw.cisdur;}
-		    	else if(Tonart.toString() == "dis-dur" || Tonart.toString()=="Dis-dur"||
-		    			Tonart.toString() == "es-dur" || Tonart.toString()=="Es-dur"){
+		    	else if(akkord.equals("dis-dur") ||akkord.equals("Dis-dur")||
+		    			akkord.equals("es-dur")|| akkord.equals("Es-dur")){
 		    		Tonspur = R.raw.disdur;}
-		    	else if(Tonart.toString() == "fis-dur" || Tonart.toString()=="Fis-dur"||
-		    			Tonart.toString() == "ges-dur" || Tonart.toString()=="Ges-dur"){
+		    	else if(akkord.equals("fis-dur") ||akkord.equals("Fis-dur")||
+		    			akkord.equals("ges-dur")|| akkord.equals("Ges-dur")){
 		    		Tonspur = R.raw.fisdur;}
-		    	else if(Tonart.toString() == "gis-dur" || Tonart.toString()=="Gis-dur" ||
-		    			Tonart.toString() == "as-dur" || Tonart.toString()=="As-dur"){
+		    	else if(akkord.equals("gis-dur") ||akkord.equals("Gis-dur")||
+		    			akkord.equals("as-dur")|| akkord.equals("As-dur")){
 		    		Tonspur = R.raw.gisdur;}
-		    	else if(Tonart.toString() == "ais-dur" || Tonart.toString()=="ais-dur"||
-		    			Tonart.toString() == "b-dur" || Tonart.toString()=="B-dur"){
+		    	else if(akkord.equals("ais-dur") ||akkord.equals("Ais-dur")||
+		    			akkord.equals("b-dur")|| akkord.equals("B-dur")){
 		    		Tonspur = R.raw.aisdur;}
-		    	
+		    	else {Toast toast = Toast.makeText(view.getContext(),
+							"Tonart konnte nicht ermittelt werden", 
+							Toast.LENGTH_SHORT);
+							toast.show();
+		    		Log.v("peter","Tonart konnte nicht ermittelt werden");
+		    		break;
+		    	}
 		    	mp= MediaPlayer.create(getApplicationContext(), Tonspur);
 		    	mp.start();
 		    	break;
 		    
 		    case R.id.cb_favorit:
 		    	if(cb_favorit.isChecked()){
-		    		
+		    		Cursor cursor = CommentsDataSource.database.query(
+							MySQLiteHelper.TABLE_COMMENTS,
+							CommentsDataSource.allColumns, 
+							MySQLiteHelper.COLUMN_ID+" = ? ",
+							new String[]{String.valueOf(id)}, 
+							null, null, null); //nach titel sortiert
+					if(cursor != null){
+						cursor.moveToFirst();
+					}
+					Comment comment = new Comment();
+					comment.setId				(cursor.getLong(0));
+				    comment.setTitel			(cursor.getString(1));
+				    comment.setInterpret		(cursor.getString(2));
+				    comment.setTonart			(cursor.getString(3));
+				    comment.setLiedtext			(cursor.getString(4));
+				    comment.setFavorit			(1);
+				    comment.setEingelesen		(cursor.getInt(6));
+				    comment.setHaeufig_benutzt	(cursor.getInt(7));
+		    		CommentsDataSource.updateComment(comment);
+		    	}
+		    	else{
+		    		Cursor cursor = CommentsDataSource.database.query(
+							MySQLiteHelper.TABLE_COMMENTS,
+							CommentsDataSource.allColumns, 
+							MySQLiteHelper.COLUMN_ID+" = ? ",
+							new String[]{String.valueOf(id)}, 
+							null, null, null); //nach titel sortiert
+					if(cursor != null){
+						cursor.moveToFirst();
+					}
+					Comment comment = new Comment();
+					comment.setId				(cursor.getLong(0));
+				    comment.setTitel			(cursor.getString(1));
+				    comment.setInterpret		(cursor.getString(2));
+				    comment.setTonart			(cursor.getString(3));
+				    comment.setLiedtext			(cursor.getString(4));
+				    comment.setFavorit			(0);
+				    comment.setEingelesen		(cursor.getInt(6));
+				    comment.setHaeufig_benutzt	(cursor.getInt(7));
+		    		CommentsDataSource.updateComment(comment);
 		    	}
 		    	break;
 		    default: 
@@ -157,23 +210,62 @@ public class Lied_anzeigen extends ActionBarActivity{
 			
 			switch(item.getItemId()){
 			
-			case R.id.delete:
-				 CommentsDataSource.database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
-					        + " = " + id, null);
+			case R.id.delete: //Liedeintrag aus Datenbank löschen
+				
+				CommentsDataSource.database.delete(
+						 MySQLiteHelper.TABLE_COMMENTS, 
+						 MySQLiteHelper.COLUMN_ID + " = " + id, null);
 				 
-				 	Toast toast = Toast.makeText(getApplicationContext(),
-							"Erfolgreich Gelöscht", Toast.LENGTH_SHORT);
-					toast.show();
-				 
-				 
+				 	Toast toast = Toast.makeText(
+				 			getApplicationContext(),
+							"Erfolgreich Gelöscht", 
+							Toast.LENGTH_SHORT);
+				 	toast.show();
 				 Log.v("peter", "Lied " +Liedtitel+ " wurde gelöscht");
 				 finish();
 				 return true;
 				
 					
-			case R.id.bearbeiten:			return true;//Titel der Datenbank nach eingegebenen Titel durchsuchen
-														//Titel der Datenbank nach Namen sortieren
-				default: //Titel der Datenbank nach Namen sortieren
+			case R.id.bearbeiten:	
+				
+				//List<Comment> values = datasource.getAllComments();
+				//CommentsDataSource.database = this.getReadableDatabase();
+				Cursor cursor = CommentsDataSource.database.query(
+						MySQLiteHelper.TABLE_COMMENTS,
+						CommentsDataSource.allColumns, 
+						MySQLiteHelper.COLUMN_ID+" = ? ",
+						new String[]{String.valueOf(id)}, 
+						null, null, null); //nach titel sortiert
+				if(cursor != null){
+					cursor.moveToFirst();
+				}
+				Comment comment = new Comment();
+				comment.setId				(cursor.getLong(0));
+			    comment.setTitel			(cursor.getString(1));
+			    comment.setInterpret		(cursor.getString(2));
+			    comment.setTonart			(cursor.getString(3));
+			    comment.setLiedtext			(cursor.getString(4));
+			    comment.setFavorit			(cursor.getInt(5));
+			    comment.setEingelesen		(cursor.getInt(6));
+			    comment.setHaeufig_benutzt	(cursor.getInt(7));
+			   
+				
+				Intent intent = new Intent(Lied_anzeigen.this, Neues_Lied_eingeben.class);
+				intent.putExtra("Liedtitel", comment.getTitel().toString());
+		    	intent.putExtra("Interpret", comment.getInterpret().toString());
+		    	intent.putExtra("Tonart", comment.getTonart().toString());
+		    	intent.putExtra("Liedtext", comment.getLiedtext().toString());
+		    	intent.putExtra("Id_update", comment.getId());
+		    	intent.putExtra("Favorit", comment.getFavorit());
+		    	intent.putExtra("Update", "update");
+				startActivity(intent);
+				
+		    	break;	
+				// Hier muss die Datenbank geupdatet werden
+				
+				
+				
+			default: break;
 			}
 			return super.onOptionsItemSelected(item);
 		}

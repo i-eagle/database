@@ -34,6 +34,7 @@
                 android:id="@+id/btn_ton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onClick"
                 android:src="@drawable/ic_action_volumen" />
 
             <TextView
@@ -49,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:onClick="onClick"
                 android:text="Favorit" />
         </LinearLayout>
 
