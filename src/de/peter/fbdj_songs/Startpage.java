@@ -125,11 +125,16 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 				case R.id.menu_sort_interpret:
 					List<Comment> values_interpret = datasource.getAllComments_Interpret();
 					ArrayAdapter<Comment> adapter_interpret = new ArrayAdapter<Comment>(this,
-					android.R.layout.simple_list_item_1, values_interpret);
+							android.R.layout.simple_list_item_1, values_interpret);
 					setListAdapter(adapter_interpret);
 					getListView().setOnItemClickListener(this);
-					
-					
+					return true;//Titel der Datenbank nach Interpreten sortieren
+				case R.id.menu_sort_alle:
+					List<Comment> values_alle = datasource.getAllComments();
+					ArrayAdapter<Comment> adapter_alle = new ArrayAdapter<Comment>(this,
+							android.R.layout.simple_list_item_1, values_alle);
+					setListAdapter(adapter_alle);
+					getListView().setOnItemClickListener(this);
 					return true;//Titel der Datenbank mit eingegebenen Interpreten suchen
 				default: //Titel der Datenbank nach Namen sortieren
 			}
@@ -156,6 +161,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 			    	lied_anzeigen.putExtra("Liedtext", comment.getLiedtext().toString());
 			    	lied_anzeigen.putExtra("Id", comment.getId());
 			    	lied_anzeigen.putExtra("Favorit", comment.getFavorit());
+			    	//lied_anzeigen.putExtra("Update", "nein");
 					startActivity(lied_anzeigen);
 		}
 		

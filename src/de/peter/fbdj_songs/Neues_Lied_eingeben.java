@@ -24,7 +24,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 	private Button btn_speichern, btn_abbrechen;
 	private CheckBox cb_dur, cb_mol;
 	public long id;
-	public String updaten_ja, n_titel, n_interpret, n_tonart, n_liedtext, update_testvariable;
+	public String updaten, n_titel, n_interpret, n_tonart, n_liedtext, update_testvariable;
 	
 	
 	
@@ -50,7 +50,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 		
 		Intent intent = getIntent();
 		id = intent.getLongExtra("Id_update", -1);
-		updaten_ja = intent.getStringExtra("Update");
+		updaten = intent.getStringExtra("Update");
 		update_testvariable = "update";
 		et_titel.setText(intent.getStringExtra("Liedtitel"));
 		et_interpret.setText(intent.getStringExtra("Interpret"));
@@ -117,8 +117,10 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 				tonart = et_tonart.getText().toString();
 				liedtext = et_liedtext.getText().toString();
 			
-				if(updaten_ja.equals(update_testvariable)){
-					Cursor cursor = CommentsDataSource.database.query(
+				if(String.valueOf(id).equals(String.valueOf(-1))){
+					CommentsDataSource.createComment(titel, interpret, tonart, liedtext);
+				}
+				else{	Cursor cursor = CommentsDataSource.database.query(
 							MySQLiteHelper.TABLE_COMMENTS,
 							CommentsDataSource.allColumns, 
 							MySQLiteHelper.COLUMN_ID+" = ? ",
@@ -150,7 +152,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 					  
 				   
 				}
-				else CommentsDataSource.createComment(titel, interpret, tonart, liedtext);
+				
 				
 			toast = Toast.makeText(v.getContext(),
 					"Gespeichert: " + et_titel.getText().toString(),

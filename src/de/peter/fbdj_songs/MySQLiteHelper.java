@@ -23,8 +23,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	  // Database creation sql statement
 	  private static final String DATABASE_CREATE = 
-			  "create table if not exists" + TABLE_COMMENTS 
-			  + "(" 
+			  "create table if not exists " + TABLE_COMMENTS 
+			  + " (" 
 			  + COLUMN_ID + " integer primary key autoincrement, " 
 			  + COLUMN_COMMENT1 + " VARCHAR(50) , " //NOT NULL
 			  + COLUMN_COMMENT2 + " VARCHAR(50), "//NOT NULL
