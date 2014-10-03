@@ -61,9 +61,9 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener{
 		
 	}
 	
+	
 
 	
-//public void onCheckboxClicked
 		public void onClick(View view) {
 		   
 		    switch (view.getId()) {
@@ -259,6 +259,7 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener{
 		    	intent.putExtra("Favorit", comment.getFavorit());
 		    	intent.putExtra("Update", "update");
 				startActivity(intent);
+				onResume();
 				
 		    	break;	
 				// Hier muss die Datenbank geupdatet werden

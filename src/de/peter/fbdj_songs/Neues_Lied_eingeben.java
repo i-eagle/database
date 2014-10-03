@@ -24,7 +24,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 	private Button btn_speichern, btn_abbrechen;
 	private CheckBox cb_dur, cb_mol;
 	public long id;
-	public String updaten, n_titel, n_interpret, n_tonart, n_liedtext;
+	public String updaten_ja, n_titel, n_interpret, n_tonart, n_liedtext, update_testvariable;
 	
 	
 	
@@ -50,7 +50,8 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 		
 		Intent intent = getIntent();
 		id = intent.getLongExtra("Id_update", -1);
-		updaten = intent.getStringExtra("Update");
+		updaten_ja = intent.getStringExtra("Update");
+		update_testvariable = "update";
 		et_titel.setText(intent.getStringExtra("Liedtitel"));
 		et_interpret.setText(intent.getStringExtra("Interpret"));
 		et_tonart.setText(intent.getStringExtra("Tonart"));
@@ -60,7 +61,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 		n_interpret = et_interpret.getText().toString();
 		n_liedtext = et_liedtext.getText().toString();
 		if(cb_dur.isChecked()){
-			//n_tonart = ;
+			
 		}
 			
 		
@@ -116,7 +117,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 				tonart = et_tonart.getText().toString();
 				liedtext = et_liedtext.getText().toString();
 			
-				if(updaten =="update"){
+				if(updaten_ja.equals(update_testvariable)){
 					Cursor cursor = CommentsDataSource.database.query(
 							MySQLiteHelper.TABLE_COMMENTS,
 							CommentsDataSource.allColumns, 
