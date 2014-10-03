@@ -110,9 +110,27 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 			// as you specify a parent activity in AndroidManifest.xml.
 			
 			switch(item.getItemId()){
-				case R.id.menu_sort_favorit:	return true;//Titel der Datenbank mit int Favorit=1;
-				case R.id.menu_sort_interpret:	return true;//Titel der Datenbank mit eingegebenen Interpreten suchen
-				case R.id.menu_sort_name:		return true;//Titel der Datenbank nach Namen sortieren
+			
+		
+				
+			case R.id.menu_sort_favorit:
+					List<Comment> values = datasource.getAllComments_Favorit();
+					ArrayAdapter<Comment> adapter_favorit = new ArrayAdapter<Comment>(this,
+					        android.R.layout.simple_list_item_1, values);
+					setListAdapter(adapter_favorit);
+					getListView().setOnItemClickListener(this);
+					return true;//Titel der Datenbank mit int Favorit=1;
+				
+				
+				case R.id.menu_sort_interpret:
+					List<Comment> values_interpret = datasource.getAllComments_Interpret();
+					ArrayAdapter<Comment> adapter_interpret = new ArrayAdapter<Comment>(this,
+					android.R.layout.simple_list_item_1, values_interpret);
+					setListAdapter(adapter_interpret);
+					getListView().setOnItemClickListener(this);
+					
+					
+					return true;//Titel der Datenbank mit eingegebenen Interpreten suchen
 				default: //Titel der Datenbank nach Namen sortieren
 			}
 			return super.onOptionsItemSelected(item);
@@ -126,7 +144,6 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 			search = et_search.getText().toString();
 			if(search.equals("")){
 				values = datasource.getAllComments();
-				
 			}
 			else {values = datasource.getComment(et_search.getText().toString());}
 			

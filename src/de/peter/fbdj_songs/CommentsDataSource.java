@@ -120,35 +120,94 @@ public class CommentsDataSource {
 		  }
 	  
 	  
-public List <Comment> getComment(String search){
-	int i = 0;
-Cursor cursor = CommentsDataSource.database.query(
-		MySQLiteHelper.TABLE_COMMENTS,
-		CommentsDataSource.allColumns, 
-		MySQLiteHelper.COLUMN_COMMENT1+" = ? ",
-		new String[]{String.valueOf(search)}, 
-		null, null, null);
-if(cursor != null){
-	cursor.moveToFirst();
-}
+	  public List <Comment> getComment(String search){
+		  int i = 0;
+		  Cursor cursor = CommentsDataSource.database.query(
+				  MySQLiteHelper.TABLE_COMMENTS,
+				  CommentsDataSource.allColumns, 
+				  MySQLiteHelper.COLUMN_COMMENT1+" = ? ",
+				  new String[]{String.valueOf(search)}, 
+				  null, null, null);
+		  if(cursor != null){
+			  cursor.moveToFirst();
+		  }
 
-Comment[] comments = new Comment[cursor.getCount()];
-while (!cursor.isAfterLast()) {
-	Comment comment = new Comment();
-comment.setId				(cursor.getLong(0));
-comment.setTitel			(cursor.getString(1));
-comment.setInterpret		(cursor.getString(2));
-comment.setTonart			(cursor.getString(3));
-comment.setLiedtext			(cursor.getString(4));
-comment.setFavorit			(1);
-comment.setEingelesen		(cursor.getInt(6));
-comment.setHaeufig_benutzt	(cursor.getInt(7));
-comments[i] = comment;
-  i++;
-  comment = null;
-  cursor.moveToNext();
-  }
+		  Comment[] comments = new Comment[cursor.getCount()];
+		  while (!cursor.isAfterLast()) {
+			  Comment comment = new Comment();
+			  comment.setId				(cursor.getLong(0));
+			  comment.setTitel			(cursor.getString(1));
+			  comment.setInterpret		(cursor.getString(2));
+			  comment.setTonart			(cursor.getString(3));
+			  comment.setLiedtext			(cursor.getString(4));
+			  comment.setFavorit			(1);
+			  comment.setEingelesen		(cursor.getInt(6));
+			  comment.setHaeufig_benutzt	(cursor.getInt(7));
+			  comments[i] = comment;
+			  i++;
+			  comment = null;
+			  cursor.moveToNext();
+		  }
 
-return Arrays.asList(comments);}
+		  return Arrays.asList(comments);}
 	 
-}
+	  public List <Comment> getAllComments_Favorit(){
+			int i = 0;
+		Cursor cursor = CommentsDataSource.database.query(
+				MySQLiteHelper.TABLE_COMMENTS,
+				CommentsDataSource.allColumns, 
+				MySQLiteHelper.COLUMN_COMMENT5+" = ? ",
+				new String[]{String.valueOf(1)}, 
+				null, null, null);
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+
+		Comment[] comments = new Comment[cursor.getCount()];
+		while (!cursor.isAfterLast()) {
+			Comment comment = new Comment();
+		comment.setId				(cursor.getLong(0));
+		comment.setTitel			(cursor.getString(1));
+		comment.setInterpret		(cursor.getString(2));
+		comment.setTonart			(cursor.getString(3));
+		comment.setLiedtext			(cursor.getString(4));
+		comment.setFavorit			(1);
+		comment.setEingelesen		(cursor.getInt(6));
+		comment.setHaeufig_benutzt	(cursor.getInt(7));
+		comments[i] = comment;
+		  i++;
+		  comment = null;
+		  cursor.moveToNext();
+		  }
+
+		return Arrays.asList(comments);
+		}
+			 
+	  public List<Comment> getAllComments_Interpret() {
+		    int i = 0;
+		    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
+		        allColumns, null, null, null, null, 
+		        MySQLiteHelper.COLUMN_COMMENT2); //nach interpret sortieren
+		    Comment[] comments = new Comment[cursor.getCount()];
+		    
+		    while (cursor.moveToNext()) {
+		    	Comment comment = new Comment();
+		    	comment.setId				(cursor.getLong(0));
+			    comment.setTitel			(cursor.getString(1));
+			    comment.setInterpret		(cursor.getString(2));
+			    comment.setTonart			(cursor.getString(3));
+			    comment.setLiedtext			(cursor.getString(4));
+			    comment.setFavorit			(cursor.getInt(5));
+			    comment.setEingelesen		(cursor.getInt(6));
+			    comment.setHaeufig_benutzt	(cursor.getInt(7));
+		      comments[i] = comment;
+		      i++;
+		      comment = null;
+		    }
+		    
+		    cursor.close();
+		    return Arrays.asList(comments);
+		  }
+	  
+		}
+	
