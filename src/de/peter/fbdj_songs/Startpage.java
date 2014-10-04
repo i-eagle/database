@@ -29,7 +29,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	public static String neuerEintrag_interpret;
 	public static String neuerEintrag_tonart;
 	public static String neuerEintrag_liedtext;
-	public  String search;
+	public  String search, von_wo;
 	public EditText et_search;
 //	public MediaPlayer mp;
 	
@@ -50,6 +50,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	        android.R.layout.simple_list_item_1, values);
 	    setListAdapter(adapter);
 	    getListView().setOnItemClickListener(this);
+	    von_wo="alle";
 	    
 	  }
 	    
@@ -119,6 +120,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 					        android.R.layout.simple_list_item_1, values);
 					setListAdapter(adapter_favorit);
 					getListView().setOnItemClickListener(this);
+					von_wo ="favorit";
 					return true;//Titel der Datenbank mit int Favorit=1;
 				
 				
@@ -128,13 +130,17 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 							android.R.layout.simple_list_item_1, values_interpret);
 					setListAdapter(adapter_interpret);
 					getListView().setOnItemClickListener(this);
+					von_wo="interpret";
 					return true;//Titel der Datenbank nach Interpreten sortieren
+				
+				
 				case R.id.menu_sort_alle:
 					List<Comment> values_alle = datasource.getAllComments();
 					ArrayAdapter<Comment> adapter_alle = new ArrayAdapter<Comment>(this,
 							android.R.layout.simple_list_item_1, values_alle);
 					setListAdapter(adapter_alle);
 					getListView().setOnItemClickListener(this);
+					von_wo = "alle";
 					return true;//Titel der Datenbank mit eingegebenen Interpreten suchen
 				default: //Titel der Datenbank nach Namen sortieren
 			}
@@ -145,12 +151,20 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// TODO Auto-generated method stub
-			List<Comment> values;
+			List<Comment> values = null;
 			search = et_search.getText().toString();
-			if(search.equals("")){
+			if(von_wo.equals("interpret")){
+				values = datasource.getAllComments_Interpret();
+			}
+			else if(von_wo.equals("favorit")){
+				values = datasource.getAllComments_Favorit();
+			}
+			else if(search.equals("")){
 				values = datasource.getAllComments();
 			}
-			else {values = datasource.getComment(et_search.getText().toString());}
+			else if(search.length()>0) {
+				values = datasource.getComment(et_search.getText().toString());
+			}
 			
 			Comment comment = values.get((int) id);
 					//new Comment();
