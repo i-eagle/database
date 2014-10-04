@@ -20,11 +20,12 @@ import android.widget.Toast;
 
 
 public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickListener, DialogInterface.OnClickListener {
-	private EditText  et_titel, et_interpret, et_tonart, et_liedtext;
+	private EditText  et_titel, et_interpret, et_tonart, et_durmol, et_liedtext;
 	private Button btn_speichern, btn_abbrechen;
 	private CheckBox cb_dur, cb_mol;
 	public long id;
-	public String updaten, n_titel, n_interpret, n_tonart, n_liedtext, update_testvariable;
+	public String updaten, tonart, cb_durmol, vonStartpage, string_durmol;
+	public char[] durmol;
 	
 	
 	
@@ -33,6 +34,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_neues__lied_eingeben);
 
+		int i =0;
 		
 		
 		et_titel=(EditText) findViewById(R.id.et_titel);
@@ -50,19 +52,34 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 		
 		Intent intent = getIntent();
 		id = intent.getLongExtra("Id_update", -1);
-		updaten = intent.getStringExtra("Update");
-		update_testvariable = "update";
-		et_titel.setText(intent.getStringExtra("Liedtitel"));
-		et_interpret.setText(intent.getStringExtra("Interpret"));
-		et_tonart.setText(intent.getStringExtra("Tonart"));
-		et_liedtext.setText(intent.getStringExtra("Liedtext"));
-		
-		n_titel = et_titel.getText().toString();
-		n_interpret = et_interpret.getText().toString();
-		n_liedtext = et_liedtext.getText().toString();
-		if(cb_dur.isChecked()){
+		vonStartpage=intent.getStringExtra("vonStartpage");
+		if(vonStartpage.equals("ja")){
 			
 		}
+		else{
+		updaten = intent.getStringExtra("Update");
+		//update_testvariable = "update";
+		et_titel.setText(intent.getStringExtra("Liedtitel"));
+		et_interpret.setText(intent.getStringExtra("Interpret"));
+		et_tonart.setText(intent.getCharArrayExtra("Tonart"), 0, 1);
+		durmol = (intent.getCharArrayExtra("durmol"));
+		
+		if(durmol.length != 0){
+			while(durmol[i] != '-'){
+				i++;
+			}
+			if(durmol[i+=1]=='d'){
+				cb_dur.setChecked(true);
+			}
+			else if(durmol[i]=='m'){
+				cb_mol.setChecked(true);
+			}
+		}
+		
+		et_liedtext.setText(intent.getStringExtra("Liedtext"));
+		}
+		
+	
 			
 		
 		
@@ -91,7 +108,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		Toast toast;
-		String titel, interpret, tonart, liedtext;
+		String titel, interpret, tonart, liedtext, uebergabe_durmol;
 		
 		
 		switch(v.getId()){
@@ -101,24 +118,18 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 			&& et_tonart.getText().toString() != ""
 			&& (cb_dur.isChecked() || cb_mol.isChecked())
 			&& et_liedtext.getText().toString()!= ""){
-				//neuerEintrag.setTitel(et_titel.getText().toString());
-				//neuerEintrag.setInterpret(et_interpret.getText().toString());
 				if(cb_dur.isChecked()){
-				et_tonart.setText(et_tonart.getText().toString() + 
-						"-dur");}
-				else{
-					et_tonart.setText(et_tonart.getText().toString() + 
-							"-mol");
-				}
-				//neuerEintrag.setLiedtext(et_liedtext.getText().toString());
+				string_durmol="-dur";}
+				else{string_durmol="-mol";}
 
 				titel = et_titel.getText().toString();
 				interpret = et_interpret.getText().toString();
 				tonart = et_tonart.getText().toString();
+				uebergabe_durmol = string_durmol;
 				liedtext = et_liedtext.getText().toString();
 			
 				if(String.valueOf(id).equals(String.valueOf(-1))){
-					CommentsDataSource.createComment(titel, interpret, tonart, liedtext);
+					CommentsDataSource.createComment(titel, interpret, tonart+string_durmol, liedtext);
 				}
 				else{	Cursor cursor = CommentsDataSource.database.query(
 							MySQLiteHelper.TABLE_COMMENTS,
@@ -133,7 +144,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 					comment.setId				(cursor.getLong(0));
 				    comment.setTitel			(titel);
 				    comment.setInterpret		(interpret);
-				    comment.setTonart			(tonart);
+				    comment.setTonart			(tonart+uebergabe_durmol);
 				    comment.setLiedtext			(liedtext);
 				    comment.setFavorit			(cursor.getInt(5));
 				    comment.setEingelesen		(cursor.getInt(6));
@@ -156,7 +167,7 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 				
 			toast = Toast.makeText(v.getContext(),
 					"Gespeichert: " + et_titel.getText().toString(),
-					Toast.LENGTH_LONG);
+					Toast.LENGTH_SHORT);
 			toast.show();
 			finish();
 			

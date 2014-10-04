@@ -67,6 +67,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	   
 	    case R.id.add:		// hier ist die fkt, um neue einträge zu schreiben
 		    Intent intent = new Intent(Startpage.this, Neues_Lied_eingeben.class);
+		    intent.putExtra("vonStartpage", "ja");
 			startActivity(intent);
 	    	break;		    
 	    	

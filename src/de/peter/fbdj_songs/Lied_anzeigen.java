@@ -253,11 +253,13 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener{
 				Intent intent = new Intent(Lied_anzeigen.this, Neues_Lied_eingeben.class);
 				intent.putExtra("Liedtitel", comment.getTitel().toString());
 		    	intent.putExtra("Interpret", comment.getInterpret().toString());
-		    	intent.putExtra("Tonart", comment.getTonart().toString());
+		    	intent.putExtra("Tonart", comment.getTonart().toCharArray());
+		    	intent.putExtra("durmol", comment.getTonart().toCharArray());
 		    	intent.putExtra("Liedtext", comment.getLiedtext().toString());
 		    	intent.putExtra("Id_update", comment.getId());
 		    	intent.putExtra("Favorit", comment.getFavorit());
 		    	intent.putExtra("Update", "update");
+		    	intent.putExtra("vonStartpage", "nein");
 				startActivity(intent);
 				onResume();
 				
