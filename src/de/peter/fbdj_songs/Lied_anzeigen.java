@@ -2,6 +2,8 @@ package de.peter.fbdj_songs;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -18,7 +20,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Lied_anzeigen extends ActionBarActivity implements OnClickListener{
+public class Lied_anzeigen extends ActionBarActivity implements OnClickListener, DialogInterface.OnClickListener{
 
 	public CommentsDataSource datasource;
 	public TextView Liedtitel, Interpret, Tonart, Liedtext; 
@@ -212,17 +214,16 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener{
 			
 			case R.id.delete: //Liedeintrag aus Datenbank löschen
 				
-				CommentsDataSource.database.delete(
-						 MySQLiteHelper.TABLE_COMMENTS, 
-						 MySQLiteHelper.COLUMN_ID + " = " + id, null);
-				 
-				 	Toast toast = Toast.makeText(
-				 			getApplicationContext(),
-							"Erfolgreich Gelöscht", 
-							Toast.LENGTH_SHORT);
-				 	toast.show();
-				 Log.v("peter", "Lied " +Liedtitel+ " wurde gelöscht");
-				 finish();
+				String message ="Möchtest du das Lied wirklich löschen?";
+				AlertDialog ad = new AlertDialog.Builder(this)
+			   .setMessage(message)
+			   .setIcon(R.drawable.ic_launcher)
+			   .setTitle("Sicher löschen?")
+			   .setPositiveButton("Ja, Lied löschen", this)
+			   .setNegativeButton("Abbrechen", this)
+			   .create();
+				ad.show();
+				
 				 return true;
 				
 					
@@ -271,6 +272,31 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener{
 			default: break;
 			}
 			return super.onOptionsItemSelected(item);
+		}
+
+
+
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			switch(which){
+			case DialogInterface.BUTTON_POSITIVE: //löschen
+				CommentsDataSource.database.delete(
+						 MySQLiteHelper.TABLE_COMMENTS, 
+						 MySQLiteHelper.COLUMN_ID + " = " + id, null);
+				 
+				 	Toast toast = Toast.makeText(
+				 			getApplicationContext(),
+							"Erfolgreich Gelöscht", 
+							Toast.LENGTH_SHORT);
+				 	toast.show();
+				 Log.v("peter", "Lied " +Liedtitel+ " wurde gelöscht");
+				finish();
+				break;
+			case DialogInterface.BUTTON_NEGATIVE: //Abbrechen
+				break;
+		}
 		}
 		
 }
