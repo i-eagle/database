@@ -62,7 +62,6 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 		}
 		else{
 		updaten = intent.getStringExtra("Update");
-		//update_testvariable = "update";
 		et_titel.setText(intent.getStringExtra("Liedtitel"));
 		et_interpret.setText(intent.getStringExtra("Interpret"));
 		et_tonart.setText(intent.getCharArrayExtra("Tonart"), 0, 1);
@@ -117,11 +116,14 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 		
 		switch(v.getId()){
 		case R.id.btn_speichern:	
-			if (et_titel.getText().toString()!= ""
-			&& et_interpret.getText().toString()!= ""
-			&& et_tonart.getText().toString() != ""
-			&& (cb_dur.isChecked() || cb_mol.isChecked())
-			&& et_liedtext.getText().toString()!= ""){
+			int t,i,ta,l;
+			t=et_titel.getText().toString().length();
+			i=et_interpret.getText().toString().length();
+			ta=et_tonart.getText().toString().length();
+			l=et_liedtext.getText().toString().length();
+			//Abfrage, ob alle Felder ausgefüllt sind, sonst Toast "Felder ausfüllen"
+			if (t!=0 && i!=0 && ta!=0 && l!=0 &&(cb_dur.isChecked()||cb_mol.isChecked())){
+					
 				if(cb_dur.isChecked()){
 				string_durmol="-dur";}
 				else{string_durmol="-mol";}
@@ -131,10 +133,11 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 				tonart = et_tonart.getText().toString();
 				uebergabe_durmol = string_durmol;
 				liedtext = et_liedtext.getText().toString();
-			
+			// wenn intent keine id übergibt, default wert (-1) => neuer Eintrag muss gespeichert werden
 				if(String.valueOf(id).equals(String.valueOf(-1))){
-					CommentsDataSource.createComment(titel, interpret, tonart+string_durmol, liedtext);
+					CommentsDataSource.createComment(titel, interpret, tonart+uebergabe_durmol, liedtext);
 				}
+				// wenn intent id übergibt, existiert eine id  => Eintrag muss geupdatet werden
 				else{	Cursor cursor = CommentsDataSource.database.query(
 							MySQLiteHelper.TABLE_COMMENTS,
 							CommentsDataSource.allColumns, 
