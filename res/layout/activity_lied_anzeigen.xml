@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -7,8 +7,12 @@
     tools:ignore="MergeRootFrame" >
 
     <LinearLayout
-        android:layout_width="363dp"
-        android:layout_height="match_parent"
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="62.54"
         android:orientation="vertical" >
 
         <TextView
@@ -41,7 +45,7 @@
                 android:id="@+id/tv_tonart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="9dp"
                 android:text="Tonart"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -49,10 +53,21 @@
                 android:id="@+id/cb_favorit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="9dp"
                 android:onClick="onClick"
                 android:text="Favorit" />
         </LinearLayout>
+       
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/LinearLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:orientation="vertical" >
 
         <ScrollView
             android:id="@+id/scrollView1"
@@ -60,16 +75,16 @@
             android:layout_height="wrap_content" >
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/LinearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/tv_liedtext"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_weight="62.54"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Liedtext"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -77,4 +92,4 @@
         </ScrollView>
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

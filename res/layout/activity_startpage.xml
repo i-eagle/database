@@ -28,7 +28,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1.16"
                 android:ems="10"
-                android:onClick="onClick" >
+                android:onClick="onClick" 
+                android:hint="Titelsuche">
 
                 <requestFocus />
             </EditText>

@@ -1,6 +1,5 @@
 package de.peter.fbdj_songs;
 
-import java.awt.Color;
 import java.util.List;
 
 import android.R.color;
