@@ -34,6 +34,7 @@ public class CommentsDataSource {
 			  MySQLiteHelper.COLUMN_COMMENT6,	//eingelesen
 			  MySQLiteHelper.COLUMN_COMMENT7,	//hauefig_benutzt
 			  };
+	  static String[] items={MySQLiteHelper.COLUMN_COMMENT1};
 
 	  public CommentsDataSource(Context context) {
 	    dbHelper = new MySQLiteHelper(context);
@@ -184,6 +185,7 @@ public class CommentsDataSource {
 		}
 			 
 	  public List<Comment> getAllComments_Interpret() {
+
 		    int i = 0;
 		    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
 		        allColumns, null, null, null, null, 
@@ -208,6 +210,24 @@ public class CommentsDataSource {
 		    cursor.close();
 		    return Arrays.asList(comments);
 		  }
-	  
+
+	  public List<String> getAllTitel() {
+		    int i = 0;
+		    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
+		        items, null, null, null, null, 
+		        null); //nach titel sortieren
+		    String[] strings = new String[cursor.getCount()];
+		    
+		    while (cursor.moveToNext()) {
+		    	String comment ;//= new String();
+			    comment=	(cursor.getString(0)); //Titel in List<String> schreiben
+			    strings[i] = comment;
+			    i++;
+			    comment = null;
+		    }
+		    
+		    cursor.close();
+		    return Arrays.asList(strings);
+		  }
 		}
 	

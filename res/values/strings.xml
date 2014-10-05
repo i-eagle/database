@@ -12,5 +12,7 @@
     <string name="btn_abbrechen">Abbrechen</string>
     <string name="title_activity_lied_anzeigen">Lied_anzeigen</string>
     <string name="title_activity_my_list">MyList</string>
+    <string name="title_activity_searchable">SearchableActivity</string>
+    <string name="search">Liedsuche</string>
 
 </resources>

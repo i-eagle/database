@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -36,6 +37,8 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lied_anzeigen);
+		ActionBar actionBar = getSupportActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 
 		Liedtitel = (TextView)findViewById(R.id.tv_liedtitel);
 		Interpret = (TextView)findViewById(R.id.tv_interpret);
