@@ -284,7 +284,6 @@ int id action_context_bar 0x7f07002e
 int id action_menu_divider 0x7f070027
 int id action_menu_presenter 0x7f070028
 int id action_mode_close_button 0x7f070035
-int id action_search 0x7f07006e
 int id action_settings 0x7f070069
 int id activity_chooser_view_content 0x7f070036
 int id add 0x7f07006d

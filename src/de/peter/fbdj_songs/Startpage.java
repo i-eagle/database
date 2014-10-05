@@ -163,12 +163,12 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 			////////////////////////////////////////////////
 			 this.menu = menu;
 
-			 /*
+			/*
 			    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 
-			        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+			      /*  SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 			        SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
-			        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+			     //   search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
 			        search.setOnQueryTextListener(new OnQueryTextListener() { 
 
 			            @Override 
@@ -184,13 +184,13 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 						public boolean onQueryTextSubmit(String letzte_eingaben) {
 							// TODO Auto-generated method stub
 							loadHistory(letzte_eingaben);
-							//handleIntent(getIntent());
+							
 							return false;
 						} 
 
-			        });
+			        });*/
 
-			    }*/
+			    
 			
 			
 			
@@ -198,7 +198,9 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	     	  return true;
 	  			}
 		    
-	// History
+/*
+	 // History
+	 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void loadHistory(String query) {
 
@@ -225,7 +227,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	        search.setSuggestionsAdapter(new ExampleAdapter(this, cursor, items));
 
 	    }
-	    }
+	    }*/
 
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {
@@ -272,10 +274,8 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 					startActivity(intent);
 			    	break;		   
 			    	
-				case R.id.action_search:
 				
-					break;
-					
+				
 					
 				default: //Titel der Datenbank nach Namen sortieren
 			}
