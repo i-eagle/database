@@ -36,6 +36,8 @@ public class CommentsDataSource {
 			  };
 	  static String[] items={MySQLiteHelper.COLUMN_COMMENT1};
 
+	  static String[] haeufig_benutzt={MySQLiteHelper.COLUMN_COMMENT7};
+	  
 	  public CommentsDataSource(Context context) {
 	    dbHelper = new MySQLiteHelper(context);
 	  }
@@ -54,13 +56,14 @@ public class CommentsDataSource {
 			 String neuerEintrag_interpret,
 			 String neuerEintrag_tonart,
 			 String neuerEintrag_liedtext) {
-	   
+	   int defaultwert = 1000;
 		  ContentValues values = new ContentValues();
 		values.clear();
 	    values.put(MySQLiteHelper.COLUMN_COMMENT1, neuerEintrag_titel);
 	    values.put(MySQLiteHelper.COLUMN_COMMENT2, neuerEintrag_interpret);
 	    values.put(MySQLiteHelper.COLUMN_COMMENT3, neuerEintrag_tonart);
 	    values.put(MySQLiteHelper.COLUMN_COMMENT4, neuerEintrag_liedtext);
+	    values.put(MySQLiteHelper.COLUMN_COMMENT7, defaultwert);
 	   
 	    long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,values);
 	   	  
@@ -90,6 +93,22 @@ public class CommentsDataSource {
 		  
 		  database.update(MySQLiteHelper.TABLE_COMMENTS,
 				  cv, MySQLiteHelper.COLUMN_ID+" ="+id,null);
+				  
+		
+	  }
+	  //hauefig_benutzt zurücksetzen
+	  public static void updateComment_haeufig_reset(){
+		  int i = 0;
+		    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
+		        haeufig_benutzt, null, null, null, null, 
+		        null);
+		 
+		  ContentValues cv = new ContentValues();
+		  
+		  cv.put(MySQLiteHelper.COLUMN_COMMENT7, 1000);
+		  
+		  database.update(MySQLiteHelper.TABLE_COMMENTS,
+				  cv, null,null);
 				  
 		
 	  }
@@ -210,6 +229,34 @@ public class CommentsDataSource {
 		    cursor.close();
 		    return Arrays.asList(comments);
 		  }
+	  
+	  public List<Comment> getAllComments_Haeufig_benutzt() {
+
+		    int i = 0;
+		    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
+		        allColumns, null, null, null, null, 
+		        MySQLiteHelper.COLUMN_COMMENT7); //nach haeufig_benutzt sortieren
+		    Comment[] comments = new Comment[cursor.getCount()];
+		    
+		    while (cursor.moveToNext()) {
+		    	Comment comment = new Comment();
+		    	comment.setId				(cursor.getLong(0));
+			    comment.setTitel			(cursor.getString(1));
+			    comment.setInterpret		(cursor.getString(2));
+			    comment.setTonart			(cursor.getString(3));
+			    comment.setLiedtext			(cursor.getString(4));
+			    comment.setFavorit			(cursor.getInt(5));
+			    comment.setEingelesen		(cursor.getInt(6));
+			    comment.setHaeufig_benutzt	(cursor.getInt(7));
+		      comments[i] = comment;
+		      i++;
+		      comment = null;
+		    }
+		    
+		    cursor.close();
+		    return Arrays.asList(comments);
+		  }
+
 
 	  public List<String> getAllTitel() {
 		    int i = 0;

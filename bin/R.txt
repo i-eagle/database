@@ -350,6 +350,7 @@ int id normal 0x7f070012
 int id progress_circular 0x7f070029
 int id progress_horizontal 0x7f07002a
 int id radio 0x7f070040
+int id reset_haeufig_benutzt 0x7f070070
 int id right 0x7f070007
 int id s_text 0x7f070063
 int id scrollView1 0x7f070054
@@ -368,6 +369,7 @@ int id shortcut 0x7f07003f
 int id showCustom 0x7f070019
 int id showHome 0x7f070016
 int id showTitle 0x7f070018
+int id sort_haeufig_benutzt 0x7f07006f
 int id split_action_bar 0x7f07002f
 int id start 0x7f070010
 int id submit_area 0x7f07004a

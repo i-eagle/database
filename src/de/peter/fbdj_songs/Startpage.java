@@ -267,6 +267,18 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 					von_wo = "alle";
 					return true;//Titel der Datenbank mit eingegebenen Interpreten suchen
 				
+				case R.id.sort_haeufig_benutzt:
+					List<Comment> values_haeufig_benutzt = datasource.getAllComments_Haeufig_benutzt();
+					ArrayAdapter<Comment> adapter_haeufig_benutzt = new ArrayAdapter<Comment>(this,
+							android.R.layout.simple_list_item_1, values_haeufig_benutzt);
+					setListAdapter(adapter_haeufig_benutzt);
+					getListView().setOnItemClickListener(this);
+					von_wo = "haeufig_benutzt";
+					return true;
+					
+				case R.id.reset_haeufig_benutzt:
+					CommentsDataSource.updateComment_haeufig_reset();
+					return true;
 				case R.id.add:
 					// hier ist die fkt, um neue einträge zu schreiben
 				    Intent intent = new Intent(Startpage.this, Neues_Lied_eingeben.class);
@@ -288,7 +300,10 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 			// TODO Auto-generated method stub
 			List<Comment> values = null;
 			search = et_search.getText().toString();
-			if(von_wo.equals("interpret")){
+			if(von_wo.equals("haeufig_benutzt")){
+				values = datasource.getAllComments_Haeufig_benutzt();
+			}
+			else if(von_wo.equals("interpret")){
 				values = datasource.getAllComments_Interpret();
 			}
 			else if(von_wo.equals("favorit")){
@@ -310,7 +325,8 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 			    	lied_anzeigen.putExtra("Liedtext", comment.getLiedtext().toString());
 			    	lied_anzeigen.putExtra("Id", comment.getId());
 			    	lied_anzeigen.putExtra("Favorit", comment.getFavorit());
-			    	//lied_anzeigen.putExtra("Update", "nein");
+			    	int hb=comment.getHaeufig_benutzt();
+			    	lied_anzeigen.putExtra("Haeufig_benutzt", hb);
 					startActivity(lied_anzeigen);
 		}
 		

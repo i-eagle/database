@@ -1385,6 +1385,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f070029;
         public static final int progress_horizontal=0x7f07002a;
         public static final int radio=0x7f070040;
+        public static final int reset_haeufig_benutzt=0x7f070070;
         public static final int right=0x7f070007;
         public static final int s_text=0x7f070063;
         public static final int scrollView1=0x7f070054;
@@ -1403,6 +1404,7 @@ containing a value of this type.
         public static final int showCustom=0x7f070019;
         public static final int showHome=0x7f070016;
         public static final int showTitle=0x7f070018;
+        public static final int sort_haeufig_benutzt=0x7f07006f;
         public static final int split_action_bar=0x7f07002f;
         public static final int start=0x7f070010;
         public static final int submit_area=0x7f07004a;

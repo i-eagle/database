@@ -30,6 +30,7 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 	public long id;
 	public CheckBox cb_favorit;
 	public MediaPlayer mp;
+	public int counter=1000;
 
 	
 	
@@ -53,6 +54,7 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 		Interpret.setText(intent.getStringExtra("Interpret"));
 		Tonart.setText(intent.getStringExtra("Tonart"));
 		Liedtext.setText(intent.getStringExtra("Liedtext"));
+		counter = intent.getIntExtra("Haeufig_benutzt", -1);
 		id = intent.getLongExtra("Id", -1);
 		favorit = intent.getIntExtra("Favorit", 0);
 		if (favorit == 1){
@@ -62,8 +64,30 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 		 datasource = new CommentsDataSource(this);
 		 datasource.open();
 
-		    
-		
+		 if(counter!=-1){
+		 if(counter>0){
+			 counter--;
+		 Cursor cursor = CommentsDataSource.database.query(
+					MySQLiteHelper.TABLE_COMMENTS,
+					CommentsDataSource.allColumns, 
+					MySQLiteHelper.COLUMN_ID+" = ? ",
+					new String[]{String.valueOf(id)}, 
+					null, null, null); //nach titel sortiert
+			if(cursor != null){
+				cursor.moveToFirst();
+			}
+			Comment comment = new Comment();
+			comment.setId				(cursor.getLong(0));
+		    comment.setTitel			(cursor.getString(1));
+		    comment.setInterpret		(cursor.getString(2));
+		    comment.setTonart			(cursor.getString(3));
+		    comment.setLiedtext			(cursor.getString(4));
+		    comment.setFavorit			(cursor.getInt(5));
+		    comment.setEingelesen		(cursor.getInt(6));
+		    comment.setHaeufig_benutzt	(counter);
+ 		CommentsDataSource.updateComment(comment);
+		    }
+		 }
 	}
 	
 	

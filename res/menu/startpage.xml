@@ -22,4 +22,6 @@
           android:visible="true"
           android:title="Neues Lied eingeben"
           android:showAsAction="always"  />
+    <item android:id="@+id/sort_haeufig_benutzt" android:visible="true" android:enabled="true" android:title="Häufig benutzt"></item>
+    <item android:id="@+id/reset_haeufig_benutzt" android:title="Reset Häufig benutzt"></item>
     </menu>
