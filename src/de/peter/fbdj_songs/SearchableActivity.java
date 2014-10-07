@@ -18,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.os.Build;
-
+//Classe für das Search-View-Widget, in meiner App jedoch ohne fkt
 public class SearchableActivity extends ListActivity implements OnItemClickListener {
 	public CommentsDataSource datasource;
 	public String query;

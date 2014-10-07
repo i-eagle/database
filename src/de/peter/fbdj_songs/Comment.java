@@ -1,14 +1,14 @@
 package de.peter.fbdj_songs;
 
-public class Comment {
-private long 			id;
+public class Comment { //Strukturaufbau eines Eintrages in der Datenbank
+private long 	id;
 private String 	titel;
 private String 	interpret;
 private String 	tonart;
 private String 	liedtext;
-private int 		favorit;
-private int 		eingelesen;
-private int 		haeufig_benutzt;
+private int 	favorit;
+private int 	eingelesen;
+private int 	haeufig_benutzt;
 
 
 

@@ -1,7 +1,6 @@
 package de.peter.fbdj_songs;
 
 import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,7 +62,9 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 		
 		 datasource = new CommentsDataSource(this);
 		 datasource.open();
-
+		 
+		 //Wenn das Lied aufgerufen wird, soll die Countervariable runterzählen,
+		 //Begrenzung bei 1000, damit nicht zu große Datenmengen mit der Zeit entstehen
 		 if(counter!=-1){
 		 if(counter>0){
 			 counter--;
@@ -97,7 +98,7 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 		   
 		    switch (view.getId()) {
 		    
-		    case R.id.btn_ton:	// hier wird zuerst die tonart ausgelesen, dann der
+		    case R.id.btn_ton:	// hier wird zuerst die Tonart ausgelesen, dann der
 		    					// dazugehörige Akkord festgelegt, anschließend wird der
 		    					// Akkord abgespielt
 		    	String akkord = Tonart.getText().toString();
@@ -171,14 +172,14 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 		    	mp.start();
 		    	break;
 		    
-		    case R.id.cb_favorit:
+		    case R.id.cb_favorit:	//Lied in Datenbank speichern, dass es Favorit ist, oder nicht
 		    	if(cb_favorit.isChecked()){
 		    		Cursor cursor = CommentsDataSource.database.query(
 							MySQLiteHelper.TABLE_COMMENTS,
 							CommentsDataSource.allColumns, 
 							MySQLiteHelper.COLUMN_ID+" = ? ",
 							new String[]{String.valueOf(id)}, 
-							null, null, null); //nach titel sortiert
+							null, null, null); 
 					if(cursor != null){
 						cursor.moveToFirst();
 					}
@@ -225,17 +226,12 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 	}
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu) {
-
-			// Inflate the menu; this adds items to the action bar if it is present.
 			getMenuInflater().inflate(R.menu.lied_anzeigen, menu);
 			return true;
 		}
 
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {
-			// Handle action bar item clicks here. The action bar will
-			// automatically handle clicks on the Home/Up button, so long
-			// as you specify a parent activity in AndroidManifest.xml.
 			
 			switch(item.getItemId()){
 			
@@ -254,19 +250,19 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 				 return true;
 				
 					
-			case R.id.bearbeiten:	
+			case R.id.bearbeiten:	// Liedeintrag an Neues_Lied_eingeben-Activity übergeben,
+									// damit man den Eintrag nur abändern muss, nicht neu
+									// schreiben
 				
-				//List<Comment> values = datasource.getAllComments();
-				//CommentsDataSource.database = this.getReadableDatabase();
+				
 				Cursor cursor = CommentsDataSource.database.query(
 						MySQLiteHelper.TABLE_COMMENTS,
 						CommentsDataSource.allColumns, 
 						MySQLiteHelper.COLUMN_ID+" = ? ",
 						new String[]{String.valueOf(id)}, 
-						null, null, null); //nach titel sortiert
-				if(cursor != null){
+						null, null, null); 
 					cursor.moveToFirst();
-				}
+				
 				Comment comment = new Comment();
 				comment.setId				(cursor.getLong(0));
 			    comment.setTitel			(cursor.getString(1));
@@ -292,9 +288,6 @@ public class Lied_anzeigen extends ActionBarActivity implements OnClickListener,
 				onResume();
 				
 		    	break;	
-				// Hier muss die Datenbank geupdatet werden
-				
-				
 				
 			default: break;
 			}

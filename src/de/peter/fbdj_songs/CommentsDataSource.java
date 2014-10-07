@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
  * Hier werden alle Daten von der Datenbank verarbeitet.
  * Eintrag einfügen,
  * Eintrag löschen,
+ * Eintrag updaten usw
  * 
  * @author petermartens
  *
@@ -46,10 +47,11 @@ public class CommentsDataSource {
 	    database = dbHelper.getWritableDatabase();
 	  }
 	  public void close() {
-		//  dbHelper.close();		//gibt iwelche Probleme
+		
 		  	  }
 	 
 
+	  //neuen Eintrag speichern
 	  public static void createComment(
 			 
 			 String neuerEintrag_titel, 
@@ -69,8 +71,7 @@ public class CommentsDataSource {
 	   	  
 	  }
 	  
-	 
-
+	  //Eintrag löschen
 	  public void deleteComment(Comment comment) {
 	    long id = comment.getId();	//Hier wird die Id bestimmt, 
 	    							//welche gelöscht werden Soll
@@ -79,7 +80,8 @@ public class CommentsDataSource {
 	    database.delete(MySQLiteHelper.TABLE_COMMENTS, MySQLiteHelper.COLUMN_ID
 	        + " = " + id, null);
 	  }
-
+	  
+	  //Eintrag bearbeiten/updaten
 	  public static void updateComment(Comment comment){
 		  long id = comment.getId();
 		  ContentValues cv = new ContentValues();
@@ -96,6 +98,7 @@ public class CommentsDataSource {
 				  
 		
 	  }
+	  
 	  //hauefig_benutzt zurücksetzen
 	  public static void updateComment_haeufig_reset(){
 		  int i = 0;
@@ -113,6 +116,7 @@ public class CommentsDataSource {
 		
 	  }
 	  
+	  // alle Datenbankeinträge finden
 	  public List<Comment> getAllComments() {
 		    int i = 0;
 		    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
@@ -139,7 +143,7 @@ public class CommentsDataSource {
 		    return Arrays.asList(comments);
 		  }
 	  
-	  
+	  //einzelnen Titel aus Datenbank finden
 	  public List <Comment> getComment(String search){
 		  int i = 0;
 		  Cursor cursor = CommentsDataSource.database.query(
@@ -171,6 +175,7 @@ public class CommentsDataSource {
 
 		  return Arrays.asList(comments);}
 	 
+	  //alle Einträge nach Favorit sortiert
 	  public List <Comment> getAllComments_Favorit(){
 			int i = 0;
 		Cursor cursor = CommentsDataSource.database.query(
@@ -202,7 +207,8 @@ public class CommentsDataSource {
 
 		return Arrays.asList(comments);
 		}
-			 
+	 
+	  //alle Einträge nach Interpret sortiert
 	  public List<Comment> getAllComments_Interpret() {
 
 		    int i = 0;
@@ -230,6 +236,7 @@ public class CommentsDataSource {
 		    return Arrays.asList(comments);
 		  }
 	  
+	  //alle Einträge nach Häufig-benutzt sortiert
 	  public List<Comment> getAllComments_Haeufig_benutzt() {
 
 		    int i = 0;
@@ -257,7 +264,8 @@ public class CommentsDataSource {
 		    return Arrays.asList(comments);
 		  }
 
-
+	  //alle Titel aus Datenbank suchen, eigentlich für die History gedacht für das 
+	  //Search-View-widget
 	  public List<String> getAllTitel() {
 		    int i = 0;
 		    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,

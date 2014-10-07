@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 	
-
+	// Database variablen mit Bezeichnung
 	public static final String TABLE_COMMENTS = "songs";
 	  public static final String COLUMN_ID = "_id";
 	  public static final String COLUMN_COMMENT1 = "titel";
@@ -21,15 +21,15 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	  private static final String DATABASE_NAME = "songs.db";
 	  private static final int DATABASE_VERSION = 1;
 
-	  // Database creation sql statement
+	  // Database erstellen String
 	  private static final String DATABASE_CREATE = 
 			  "create table if not exists " + TABLE_COMMENTS 
 			  + " (" 
 			  + COLUMN_ID + " integer primary key autoincrement, " 
-			  + COLUMN_COMMENT1 + " VARCHAR(50) , " //NOT NULL
-			  + COLUMN_COMMENT2 + " VARCHAR(50), "//NOT NULL
+			  + COLUMN_COMMENT1 + " VARCHAR(50) , " 
+			  + COLUMN_COMMENT2 + " VARCHAR(50), "
 			  + COLUMN_COMMENT3 + " VARCHAR(10), "
-			  + COLUMN_COMMENT4 + " VARCHAR(1000) , "//NOT NULL
+			  + COLUMN_COMMENT4 + " VARCHAR(1000) , "
 			  + COLUMN_COMMENT5 + " INTEGER, "
 			  + COLUMN_COMMENT6 + " INTEGER, "
 			  + COLUMN_COMMENT7 + " INTEGER "
@@ -41,12 +41,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	  
 	  
-	  @Override
+	  @Override // Database erstellen
 	  public void onCreate(SQLiteDatabase database) {
 		  database.execSQL(DATABASE_CREATE);
 	  }
 
-	  @Override
+	  @Override // Database updaten
 	  public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	    Log.w(MySQLiteHelper.class.getName(),
 	        "Upgrading database from version " + oldVersion + " to "

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class ExampleAdapter extends CursorAdapter {
-	
+	// gehört zum anzeigen der History in dem Search-View-widget
 
     private List<String> items;
     

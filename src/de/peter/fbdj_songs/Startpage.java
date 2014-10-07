@@ -56,7 +56,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	  public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_startpage);
-	    handleIntent(getIntent());
+	   // handleIntent(getIntent());
 	    
 	    int i =0;
 	    et_search = (EditText)findViewById(R.id.et_search);
@@ -76,7 +76,8 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	   
 	    
 	  }
-	    
+	  /*//Versuch eine Search-view-widget mit history-einträgen.
+	   * jedoch ohne vollständigem Erfolg, deshalb auskommentiert   
 	  @Override
 	  public boolean onSearchRequested() {
 	       Bundle appData = new Bundle();
@@ -84,7 +85,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	       startSearch(null, false, appData, false);
 	       return true;
 	   }
-	  
+	    
 	  @Override
 	  protected void onNewIntent(Intent intent) {
 	      setIntent(intent);
@@ -102,7 +103,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 			    getListView().setOnItemClickListener(this);
 	      }
 	  }
-	 
+	 */
 
 	  	/** Will be called via the onClick attribute
 	   of the buttons in main.xml
@@ -114,15 +115,17 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	    switch (view.getId()) {
 	   
 	    case R.id.search: 
-	    	int i=0;
+	    	/*//um eine anzeigen-history zu erstellen, jedoch ohne fkt, deshalb auskommentiert
+	    	 int i=0;
+	    	 
 	    	letzte_eingaben= new String[4];
 	    	if(i<=4){
 	    		letzte_eingaben[i] = search;
 	    		i++;
 	    		if(i==5){
 	    			i=0;
-	    		}
-	    	}
+	    		}*/
+	    	//Alle Datenbankeinträge nach eingegebenem Titel durchsuchen
 		    List<Comment> values = datasource.getComment(et_search.getText().toString());
 		    ArrayAdapter<Comment> adapter_search = new ArrayAdapter<Comment>(this,
 		        android.R.layout.simple_list_item_1, values);
@@ -131,11 +134,9 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 		    
 	    	break;
 	   
-	    case R.id.et_search: 
-	    	
-	    	break;
-	  }
-	   
+	    case R.id.et_search: break;
+	  
+	    }
 	    	
 	  	}
 
@@ -152,18 +153,16 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	    super.onPause();
 	  }
 	
-	  //@SuppressLint("NewApi")
+	  
 	
 	@Override
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		public boolean onCreateOptionsMenu(Menu menu) {
-/////////////////////////////////////////////////////////////
-			// Inflate the menu; this adds items to the action bar if it is present.
-			getMenuInflater().inflate(R.menu.startpage, menu);
-			////////////////////////////////////////////////
-			 this.menu = menu;
 
-			/*
+			getMenuInflater().inflate(R.menu.startpage, menu);
+			this.menu = menu;
+
+			/* //Versuch ein Search-View- widget einzufügen, hat jedoch nicht ganz geklappt
 			    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 
 			      /*  SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -199,7 +198,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 	  			}
 		    
 /*
-	 // History
+	 // History //Versuch ein Search-View- widget einzufügen, hat jedoch nicht ganz geklappt
 	 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void loadHistory(String query) {
@@ -231,14 +230,11 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {
-			// Handle action bar item clicks here. The action bar will
-			// automatically handle clicks on the Home/Up button, so long
-			// as you specify a parent activity in AndroidManifest.xml.
-			
 			
 			switch(item.getItemId()){
 				
 			case R.id.menu_sort_favorit:
+					// Liste nach Favorit sortieren und anzeigen
 					List<Comment> values = datasource.getAllComments_Favorit();
 					ArrayAdapter<Comment> adapter_favorit = new ArrayAdapter<Comment>(this,
 					        android.R.layout.simple_list_item_1, values);
@@ -249,6 +245,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 				
 				
 				case R.id.menu_sort_interpret:
+					//Liste nach Interpret sortieren und anzeigen
 					List<Comment> values_interpret = datasource.getAllComments_Interpret();
 					ArrayAdapter<Comment> adapter_interpret = new ArrayAdapter<Comment>(this,
 							android.R.layout.simple_list_item_1, values_interpret);
@@ -259,6 +256,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 				
 				
 				case R.id.menu_sort_alle:
+					// Liste nach Alphabet sortieren und anzeigen
 					List<Comment> values_alle = datasource.getAllComments();
 					ArrayAdapter<Comment> adapter_alle = new ArrayAdapter<Comment>(this,
 							android.R.layout.simple_list_item_1, values_alle);
@@ -268,6 +266,7 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 					return true;//Titel der Datenbank mit eingegebenen Interpreten suchen
 				
 				case R.id.sort_haeufig_benutzt:
+					// Liste nach Countervariable sortieren und anzeigen
 					List<Comment> values_haeufig_benutzt = datasource.getAllComments_Haeufig_benutzt();
 					ArrayAdapter<Comment> adapter_haeufig_benutzt = new ArrayAdapter<Comment>(this,
 							android.R.layout.simple_list_item_1, values_haeufig_benutzt);
@@ -277,19 +276,22 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 					return true;
 					
 				case R.id.reset_haeufig_benutzt:
+					// die Countervariable wird in allen Einträgen wieder auf
+					// 1000 gesetzt
+					// beim sortieren danach wird vom kleinsten bis größten sortiert,
+					// und damit der meistgeklickteste Eintrag oben in der Liste steht,
+					// muss dekrementiert werden
 					CommentsDataSource.updateComment_haeufig_reset();
 					return true;
 				case R.id.add:
-					// hier ist die fkt, um neue einträge zu schreiben
+					// neuen Liedeintrag in die Datenbank speichern
 				    Intent intent = new Intent(Startpage.this, Neues_Lied_eingeben.class);
 				    intent.putExtra("vonStartpage", "ja");
 					startActivity(intent);
 			    	break;		   
-			    	
-				
 				
 					
-				default: //Titel der Datenbank nach Namen sortieren
+				default: break;
 			}
 			return super.onOptionsItemSelected(item);
 		}
@@ -297,7 +299,9 @@ public class Startpage extends ListActivity implements OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			// TODO Auto-generated method stub
+			
+			// Wenn die Lieder sortiert werden, damit beim Click, die richtige
+			// Id weitergegeben wird für die Lied_anzeigen-Activity
 			List<Comment> values = null;
 			search = et_search.getText().toString();
 			if(von_wo.equals("haeufig_benutzt")){
