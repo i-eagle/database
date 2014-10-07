@@ -53,12 +53,12 @@ public class CommentsDataSource {
 
 	  //neuen Eintrag speichern
 	  public static void createComment(
-			 
 			 String neuerEintrag_titel, 
 			 String neuerEintrag_interpret,
 			 String neuerEintrag_tonart,
 			 String neuerEintrag_liedtext) {
-	   int defaultwert = 1000;
+	  
+		  int defaultwert = 1000;
 		  ContentValues values = new ContentValues();
 		values.clear();
 	    values.put(MySQLiteHelper.COLUMN_COMMENT1, neuerEintrag_titel);
@@ -67,8 +67,7 @@ public class CommentsDataSource {
 	    values.put(MySQLiteHelper.COLUMN_COMMENT4, neuerEintrag_liedtext);
 	    values.put(MySQLiteHelper.COLUMN_COMMENT7, defaultwert);
 	   
-	    long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,values);
-	   	  
+	    long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,values); 
 	  }
 	  
 	  //Eintrag löschen
@@ -95,8 +94,6 @@ public class CommentsDataSource {
 		  
 		  database.update(MySQLiteHelper.TABLE_COMMENTS,
 				  cv, MySQLiteHelper.COLUMN_ID+" ="+id,null);
-				  
-		
 	  }
 	  
 	  //hauefig_benutzt zurücksetzen

@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 
 
-public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickListener, DialogInterface.OnClickListener {
+public class Neues_Lied_eingeben extends ActionBarActivity 
+implements OnClickListener, DialogInterface.OnClickListener {
+	
 	private EditText  et_titel, et_interpret, et_tonart, et_durmol, et_liedtext;
 	private Button btn_speichern, btn_abbrechen;
 	private CheckBox cb_dur, cb_mol;
@@ -82,10 +84,6 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 		et_liedtext.setText(intent.getStringExtra("Liedtext"));
 		}
 		
-	
-			
-		
-		
 	}
 	
 	/** Damit die Seite nicht ohne Nachfrage über Zurück-Button beendet werden kann
@@ -133,11 +131,15 @@ public class Neues_Lied_eingeben extends ActionBarActivity implements OnClickLis
 				tonart = et_tonart.getText().toString();
 				uebergabe_durmol = string_durmol;
 				liedtext = et_liedtext.getText().toString();
-			// wenn intent keine id übergibt, default wert (-1) => neuer Eintrag muss gespeichert werden
+				
+			// wenn intent keine id übergibt, default wert (-1) 
+			//=> neuer Eintrag muss gespeichert werden
 				if(String.valueOf(id).equals(String.valueOf(-1))){
-					CommentsDataSource.createComment(titel, interpret, tonart+uebergabe_durmol, liedtext);
+					CommentsDataSource.createComment(
+							titel, interpret, tonart+uebergabe_durmol, liedtext);
 				}
-				// wenn intent id übergibt, existiert eine id  => Eintrag muss geupdatet werden
+			// wenn intent id übergibt, existiert eine id  
+			//=> Eintrag muss geupdatet werden
 				else{	Cursor cursor = CommentsDataSource.database.query(
 							MySQLiteHelper.TABLE_COMMENTS,
 							CommentsDataSource.allColumns, 

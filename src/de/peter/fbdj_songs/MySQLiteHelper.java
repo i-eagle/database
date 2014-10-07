@@ -8,7 +8,7 @@ import android.util.Log;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 	
 	// Database variablen mit Bezeichnung
-	public static final String TABLE_COMMENTS = "songs";
+	  public static final String TABLE_COMMENTS = "songs";
 	  public static final String COLUMN_ID = "_id";
 	  public static final String COLUMN_COMMENT1 = "titel";
 	  public static final String COLUMN_COMMENT2 = "interpret";
